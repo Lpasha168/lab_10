@@ -1,8 +1,5 @@
 #include <gtest/gtest.h>
-
 #include "MyVector.h"
-
-// --- MyVector<int> (общий шаблон) ---
 
 TEST(MyVectorInt, DefaultIsEmpty) {
     MyVector<int> v;
@@ -51,7 +48,8 @@ TEST(MyVectorInt, ConstIndexRead) {
     EXPECT_EQ(cv[0], 7);
 }
 
-// --- MyVector<bool> (специализация, биты в uint8_t) ---
+
+
 
 TEST(MyVectorBool, DefaultIsEmpty) {
     MyVector<bool> v;
