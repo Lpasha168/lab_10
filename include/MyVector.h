@@ -122,10 +122,6 @@ class MyVector<bool> {
     std::size_t size_{0};      
     std::size_t capacity_{0};  
 
-    [[nodiscard]] static constexpr std::size_t bits_to_bytes(std::size_t bits) noexcept {
-        return (bits + 7) / 8;
-    }
-
     void grow() {
         std::size_t new_cap_bits = (capacity_ == 0) ? 8 : capacity_ * 2;
         std::uint8_t* new_bytes = new std::uint8_t[bits_to_bytes(new_cap_bits)]();
