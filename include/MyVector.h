@@ -88,14 +88,15 @@ public:
         swap(capacity_, other.capacity_);
     }
 
-    /** Текущее число элементов. */
+    
     [[nodiscard]] std::size_t size() const noexcept { return size_; }
-    /** Зарезервированная ёмкость (число элементов, для которых выделена память). */
+    
     [[nodiscard]] std::size_t capacity() const noexcept { return capacity_; }
-    /** Доступ по индексу без проверки границ. */
+    
     [[nodiscard]] T& operator[](std::size_t index) noexcept { return data_[index]; }
+
     [[nodiscard]] const T& operator[](std::size_t index) const noexcept { return data_[index]; }
-    /** Добавить элемент в конец (при необходимости увеличить буфер). */
+    
     void push_back(const T& value) {
         if (size_ == capacity_) {
             grow();
@@ -125,8 +126,8 @@ public:
 template <>
 class MyVector<bool> {
     std::uint8_t* bytes_{nullptr};
-    std::size_t size_{0};      // число логических bool
-    std::size_t capacity_{0};  // число бит, под которые выделена память
+    std::size_t size_{0};      
+    std::size_t capacity_{0};  
 
     [[nodiscard]] static constexpr std::size_t bits_to_bytes(std::size_t bits) noexcept {
         return (bits + 7) / 8;
@@ -153,7 +154,7 @@ public:
     
     class Reference {
         std::uint8_t* byte_;
-        unsigned bit_;  // 0..7, младший бит — нулевой элемент в байте
+        unsigned bit_;  
 
         friend class MyVector<bool>;
 
