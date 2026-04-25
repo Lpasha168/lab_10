@@ -23,5 +23,4 @@ target_link_libraries(run_tests PRIVATE GTest::gtest_main)
 
 enable_testing()
 include(GoogleTest)
-# PRE_TEST: регистрация при запуске ctest (мультиконфигурация MSVC).
 gtest_discover_tests(run_tests DISCOVERY_MODE PRE_TEST)
