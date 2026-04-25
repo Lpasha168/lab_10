@@ -130,7 +130,7 @@ class MyVector<bool> {
         if (bytes_ != nullptr && old_byte_len > 0) {
             std::memcpy(new_bytes, bytes_, old_byte_len);
         }
-        // Обнуляем хвост при расширении
+        
         if (new_byte_len > old_byte_len) {
             std::memset(new_bytes + old_byte_len, 0, new_byte_len - old_byte_len);
         }
@@ -150,10 +150,6 @@ public:
         Reference(std::uint8_t* b, unsigned bit) noexcept : byte_(b), bit_(bit) {}
 
     public:
-        /** Чтение как bool. */
-        [[nodiscard]] operator bool() const noexcept {
-            return static_cast<bool>((*byte_ >> bit_) & 1u);
-        }
 
         Reference& operator=(bool value) noexcept {
             if (value) {
@@ -227,21 +223,6 @@ public:
         swap(capacity_, other.capacity_);
     }
 
-    [[nodiscard]] std::size_t size() const noexcept { return size_; }
-
-    [[nodiscard]] std::size_t capacity() const noexcept { return capacity_; }
-
-    [[nodiscard]] Reference operator[](std::size_t index) noexcept {
-        const std::size_t byte_index = index / 8;
-        const unsigned bit = static_cast<unsigned>(index % 8);
-        return Reference(bytes_ + byte_index, bit);
-    }
-
-    [[nodiscard]] bool operator[](std::size_t index) const noexcept {
-        const std::size_t byte_index = index / 8;
-        const unsigned bit = static_cast<unsigned>(index % 8);
-        return static_cast<bool>((bytes_[byte_index] >> bit) & 1u);
-    }
 
     void push_back(bool value) {
         if (size_ == capacity_) {
