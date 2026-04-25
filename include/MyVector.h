@@ -1,16 +1,10 @@
 #pragma once
-
 #include <algorithm>
 #include <cstddef>
 #include <cstdint>
 #include <cstring>
 #include <new>
 #include <utility>
-
-/**
- * @file MyVector.h
- * @brief Упрощённый динамический массив (header-only) и специализация для bool с упаковкой по битам.
- */
 
 template <typename T>
 class MyVector {
@@ -96,15 +90,11 @@ public:
 
     /** Текущее число элементов. */
     [[nodiscard]] std::size_t size() const noexcept { return size_; }
-
     /** Зарезервированная ёмкость (число элементов, для которых выделена память). */
     [[nodiscard]] std::size_t capacity() const noexcept { return capacity_; }
-
     /** Доступ по индексу без проверки границ. */
     [[nodiscard]] T& operator[](std::size_t index) noexcept { return data_[index]; }
-
     [[nodiscard]] const T& operator[](std::size_t index) const noexcept { return data_[index]; }
-
     /** Добавить элемент в конец (при необходимости увеличить буфер). */
     void push_back(const T& value) {
         if (size_ == capacity_) {
@@ -122,7 +112,6 @@ public:
         ++size_;
     }
 
-    /** Удалить последний элемент; для пустого вектора поведение не определено (как у std::vector). */
     void pop_back() noexcept {
         if (size_ == 0) {
             return;
@@ -132,10 +121,7 @@ public:
     }
 };
 
-/**
- * Специализация для bool: элементы упакованы по одному биту в массив uint8_t.
- * Неконстантный operator[] возвращает прокси Reference для присваивания биту.
- */
+
 template <>
 class MyVector<bool> {
     std::uint8_t* bytes_{nullptr};
@@ -164,7 +150,7 @@ class MyVector<bool> {
     }
 
 public:
-    /** Прокси для чтения/записи одного бита (для operator[]). */
+    
     class Reference {
         std::uint8_t* byte_;
         unsigned bit_;  // 0..7, младший бит — нулевой элемент в байте
@@ -179,7 +165,6 @@ public:
             return static_cast<bool>((*byte_ >> bit_) & 1u);
         }
 
-        /** Запись бита. */
         Reference& operator=(bool value) noexcept {
             if (value) {
                 *byte_ = static_cast<std::uint8_t>(*byte_ | (1u << bit_));
@@ -189,7 +174,6 @@ public:
             return *this;
         }
 
-        /** Присваивание через другой Reference (копирование бита). */
         Reference& operator=(const Reference& other) noexcept {
             return operator=(static_cast<bool>(other));
         }
@@ -209,7 +193,6 @@ public:
         if (other.bytes_ != nullptr && src_n > 0) {
             std::memcpy(bytes_, other.bytes_, std::min(n, src_n));
         }
-        // Маскируем мусор за пределами size в последнем байте копии
         const std::size_t tail = size_ % 8;
         if (tail != 0 && n > 0) {
             const std::uint8_t mask =
@@ -256,7 +239,6 @@ public:
 
     [[nodiscard]] std::size_t size() const noexcept { return size_; }
 
-    /** Ёмкость в смысле числа хранимых логических bool (число бит в буфере). */
     [[nodiscard]] std::size_t capacity() const noexcept { return capacity_; }
 
     [[nodiscard]] Reference operator[](std::size_t index) noexcept {
