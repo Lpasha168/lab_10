@@ -89,13 +89,6 @@ public:
     }
 
     
-    [[nodiscard]] std::size_t size() const noexcept { return size_; }
-    
-    [[nodiscard]] std::size_t capacity() const noexcept { return capacity_; }
-    
-    [[nodiscard]] T& operator[](std::size_t index) noexcept { return data_[index]; }
-
-    [[nodiscard]] const T& operator[](std::size_t index) const noexcept { return data_[index]; }
     
     void push_back(const T& value) {
         if (size_ == capacity_) {
