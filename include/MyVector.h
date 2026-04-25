@@ -34,7 +34,7 @@ class MyVector {
 
 public:
     MyVector() = default;
-//копирование
+
     ~MyVector() {
         destroy_range(data_, size_);
         ::operator delete(data_);
@@ -49,7 +49,7 @@ public:
             new (data_ + i) T(other.data_[i]);
         }
     }
-//присваивание
+
     MyVector& operator=(const MyVector& other) {
         if (this == &other) {
             return *this;
